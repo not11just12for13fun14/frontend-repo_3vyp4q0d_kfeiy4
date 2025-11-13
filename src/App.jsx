@@ -4,7 +4,10 @@ import Filters from './components/Filters'
 import JobCard from './components/JobCard'
 import Stats from './components/Stats'
 import Footer from './components/Footer'
-import { useMemo, useState } from 'react'
+import StudentsPlaced from './components/StudentsPlaced'
+import CompaniesVisited from './components/CompaniesVisited'
+import Team from './components/Team'
+import { useEffect, useMemo, useState } from 'react'
 
 const MOCK_JOBS = [
   { id:1, company:'TCS', role:'Software Engineer', location:'PAN India', ctc:'₹ 7 LPA', deadline:'Nov 28', cgpa:'7.0', skills:['Java', 'DSA', 'Spring'] },
@@ -14,8 +17,32 @@ const MOCK_JOBS = [
   { id:5, company:'Infosys', role:'System Engineer', location:'Pune', ctc:'₹ 5.5 LPA', deadline:'Dec 08', cgpa:'6.0', skills:['.NET', 'SQL', 'Azure'] },
 ]
 
+const baseUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000'
+
 export default function App() {
   const [filters, setFilters] = useState({})
+  const [placed, setPlaced] = useState([])
+  const [companies, setCompanies] = useState([])
+  const [team, setTeam] = useState([])
+
+  useEffect(()=>{
+    // Prefetch dashboard data (students placed, companies, team)
+    const fetchAll = async () => {
+      try {
+        const [sp, co, tm] = await Promise.all([
+          fetch(`${baseUrl}/api/students-placed`).then(r=>r.json()).catch(()=>({items:[]})),
+          fetch(`${baseUrl}/api/companies`).then(r=>r.json()).catch(()=>({items:[]})),
+          fetch(`${baseUrl}/api/team`).then(r=>r.json()).catch(()=>({items:[]})),
+        ])
+        setPlaced(sp.items || [])
+        setCompanies(co.items || [])
+        setTeam(tm.items || [])
+      } catch (e) {
+        // Silently ignore for now
+      }
+    }
+    fetchAll()
+  }, [])
 
   const filtered = useMemo(()=>{
     return MOCK_JOBS.filter(j=>{
@@ -51,6 +78,10 @@ export default function App() {
         </section>
 
         <Stats />
+
+        <StudentsPlaced items={placed} />
+        <CompaniesVisited items={companies} />
+        <Team items={team} />
       </main>
 
       <Footer />
