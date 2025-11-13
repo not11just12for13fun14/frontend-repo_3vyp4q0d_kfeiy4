@@ -1,4 +1,5 @@
-import { Menu, Search, Briefcase, Bell, User, ChevronDown } from 'lucide-react'
+import { Menu, Bell, User, ChevronDown, Building2, Users, Phone, GraduationCap } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 export default function Navbar() {
   return (
@@ -6,23 +7,20 @@ export default function Navbar() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="h-9 w-9 grid place-items-center rounded-lg bg-gradient-to-br from-violet-500 to-cyan-400 text-white shadow-lg shadow-cyan-500/20">
-            <Briefcase size={18} />
+            <GraduationCap size={18} />
           </div>
           <span className="text-white font-semibold tracking-wide">TPO Nexus</span>
         </div>
 
         <nav className="hidden md:flex items-center gap-6 text-sm text-white/70">
-          <a className="hover:text-white transition-colors" href="#jobs">Jobs</a>
-          <a className="hover:text-white transition-colors" href="#drives">Drives</a>
-          <a className="hover:text-white transition-colors" href="#stats">Stats</a>
-          <a className="hover:text-white transition-colors" href="#contact">Contact</a>
+          <a className="hover:text-white transition-colors" href="#stats">Highlights</a>
+          <a className="hover:text-white transition-colors" href="#placed">Students Placed</a>
+          <a className="hover:text-white transition-colors" href="#companies">Companies</a>
+          <a className="hover:text-white transition-colors" href="#team">TPO Team</a>
+          <Link className="hover:text-white transition-colors" to="/contact">Contact</Link>
         </nav>
 
         <div className="hidden md:flex items-center gap-3">
-          <button className="hidden lg:flex items-center gap-2 text-white/80 hover:text-white bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg">
-            <Search size={16} />
-            <span className="text-sm">Search</span>
-          </button>
           <button className="h-9 w-9 grid place-items-center rounded-lg bg-white/5 border border-white/10 text-white/80 hover:text-white">
             <Bell size={18} />
           </button>
